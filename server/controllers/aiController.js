@@ -5,7 +5,7 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
-import { PDFParse } from 'pdf-parse';
+import { extractText, getDocumentProxy } from 'unpdf';
 
 const AI = new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
@@ -221,10 +221,19 @@ export const resumeReview = async (req, res) => {
             return res.json({success: false, message: "Resume file size exceeds allowed size (5MB)."})
         } 
 
-        const dataBuffer = fs.readFileSync(resume.path)
-        const pdfData = await pdf(dataBuffer)
+        // const dataBuffer = fs.readFileSync(resume.path)
+        // const pdfData = await pdf(dataBuffer)
 
-        const prompt = `Review the following resume and provide constructive feedback on its strengths, weaknesses, and areas for improvement. Resume Content:\n\n${pdfData.text}`
+        // const prompt = `Review the following resume and provide constructive feedback on its strengths, weaknesses, and areas for improvement. Resume Content:\n\n${pdfData.text}`
+
+
+        const { extractText, getDocumentProxy } = await import('unpdf');
+        const dataBuffer = fs.readFileSync(resume.path);
+        const uint8Array = new Uint8Array(dataBuffer);
+        const pdf = await getDocumentProxy(uint8Array);
+        const { text } = await extractText(pdf, { mergePages: true });
+
+        const prompt = `Review the following resume and provide constructive feedback on its strengths, weaknesses, and areas for improvement. Resume Content:\n\n${text}`;
 
         const response = await AI.chat.completions.create({
             model: "gemini-2.0-flash",
