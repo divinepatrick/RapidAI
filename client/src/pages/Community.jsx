@@ -39,9 +39,9 @@ const Community = () => {
       if (data.success) {
         toast.success(data.message)
         await fetchCreations()
-      } else (
+      } else {
         toast.error(data.message)
-      )
+      }
     } catch (error) {
       toast.error(error.message)
     }
