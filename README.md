@@ -1,13 +1,13 @@
 # Rapid AI
 ## This tool leverages Clipdrop - for image generation, Gemini ai - for text generation, Cloudinary for image edits
 # Clone and Setup
-* This web app is built using Next.js React framework, expressjs... therefore, you'll need to have ```node.js``` installed in your local machine.
+* This web app is built using Next.js React, expressjs... therefore, you'll need to have ```node.js``` installed in your local machine.
 
-* After successfully installing ```node```, clone the repository into your local system using the command below: </br>
+* After successfully installing ```node```, clone the repository into your machine using the command below: </br>
 ```bash 
 git clone https://github.com/divinepatrick/rapidai.git
 ```
-This will clone the whole repository into your system.
+This will clone the whole repository into your local machine.
 
 - To install all required dependencies to your sytem, navigate to the directory where your cloned repository lives and execute:
 ```node
